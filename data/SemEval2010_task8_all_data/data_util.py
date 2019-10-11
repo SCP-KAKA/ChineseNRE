@@ -19,7 +19,36 @@ def flatten(x):
             result.append(el)
     return result
 
-relation2id={
+
+def X_padding(words):
+    """
+        把句子（words）转为 id 形式，不足 max_len 自动补全长度，超出的截断。
+        :param words: 句子
+        :return: max_len长度的字向量
+    """
+    ids = []
+    for word in words:
+        if word in word2id:
+            ids.append(word2id[word])
+        else:
+            ids.append(word2id["UNKNOW"])
+
+    if len(ids) >= max_len:
+        return ids[:max_len]
+    ids.extend([word2id["BLANK"]]*(max_len-len(ids)))
+    return ids
+
+
+def pos_padding(index):
+    ids = []
+    for i in range(max_len):
+        ids.append(i-index+max_len)
+    if max_len-index < 0:
+        print(index, ids)
+    return ids
+
+# 关系--id 映射
+relation2id = {
     "Other": 0,
     "Cause-Effect": 1,
     "Instrument-Agency": 2,
@@ -84,30 +113,6 @@ word2id["UNKNOW"] = len(word2id)+1
 print(word2id)
 max_len = 70
 senssslen = 0
-
-
-def X_padding(words):
-    ids = []
-    for word in words:
-        if word in word2id:
-            ids.append(word2id[word])
-        else:
-            ids.append(word2id["UNKNOW"])
-
-    if len(ids) >= max_len:
-        return ids[:max_len]
-    ids.extend([word2id["BLANK"]]*(max_len-len(ids)))
-    return ids
-
-
-def pos_padding(index):
-    ids = []
-    for i in range(max_len):
-        ids.append(i-index+max_len)
-    if max_len-index < 0:
-        print(index, ids)
-    return ids
-
 
 x = deque()
 pos_e1 = deque()
