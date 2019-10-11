@@ -203,5 +203,5 @@ if __name__ == "__main__":
 
     update_word2id("./people-relation/word2id.txt", train_data, test_data)
 
-    data2pkl("./people-relation/train.pkl", train_data, is_train=True)
-    data2pkl("./people-relation/test.pkl", test_data)
+    data2pkl("./train.pkl", train_data, is_train=True)
+    data2pkl("./test.pkl", test_data)
